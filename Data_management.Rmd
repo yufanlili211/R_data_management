@@ -18,66 +18,122 @@ This document is
 
 # Setup environment and data import
 ## Load libraries
-```{r}
-
+```{r load packages}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr)
 ```
 
 ## Set working directory
-```{r}
-
+```{r wd}
+getwd()
 ```
 
 ## Import the datasets
-```{r}
-
+```{r import dataset}
+# read.csv(), read.table()
+data_pd <- read.csv("BPI889_PD_run-in.csv", header = TRUE)
+data_cov <- read.table("BPI889_demographics.tab", header = TRUE, sep = "")
 ```
 
 ## Visually inspect imported data.frames
-```{r}
-
+```{r check}
+str(data_pd)
+str(data_cov)
 ```
 
 # Data Management
 ## Change variables
 ### Set variables names
 ```{r}
-
+names(data_pd)[1] <- "ID" # change the name of column in dataframe using names()
 ```
 
 ### Transform dataset from wide to long format
-```{r}
-
+```{r long format}
+# gather() to transform wide to long format
+tidy_pd <- gather(
+  data_pd,
+  key = "TIME",
+  value = "CD4",
+  -ID)
 ```
 
 ### Format Numeric variables
 ```{r}
-
+# check the class of the variable
+summary(tidy_pd)
+# CD4 --> as.numeric()
+tidy_pd$CD4 <- as.numeric(tidy_pd$CD4)
+# TIME, only keeps numbers/ remove part of the string using gsub()
+tidy_pd$TIME <- gsub("day.", "", tidy_pd$TIME)
+tidy_pd$TIME <- as.numeric(tidy_pd$TIME)
 ```
 
-### Formate categorical variables
+### Format categorical variables
 ```{r}
-
+# check the class of the variables
+summary(data_cov)
+# factorize SEX, and rename F/M to Female and Male, using factor()
+data_cov$SEX <- factor(data_cov$SEX ,
+                       levels = c("F","M"),
+                       labels = c("Female", "Male"))
+# factorize TB, rename 0/1 to HIV/HIV/TB using factor()
+data_cov$TB <- factor(data_cov$TB,
+                      levels = c(0, 1),
+                      labels = c("HIV", "HIV+TB"))
 ```
 
 ### Create new variables
 ```{r}
-
+# calculate BMI, BMI = weight/height2, weight - kg, height - m
+# change unit of HT to m
+data_cov$HT <- data_cov$HT/100
+bmi <- function(WT, HT){
+  bmi <- WT/(HT^2)
+  bmi <- round(bmi, digits = 1) # limits decimals into 1 decimal using round()
+  return(bmi)
+}
+data_cov$BMI <- bmi(data_cov$WT, data_cov$HT)
+data_cov$CBMI <- NA
+# ifelse() to assign values 0,1,2,3 to the variable CBMI
+data_cov$CBMI <- ifelse(data_cov$SEX == "Male" & data_cov$BMI <= 20 | data_cov$SEX == "Female" & data_cov$BMI <= 18, 0,
+                        ifelse(data_cov$BMI <= 25, 1, 
+                               ifelse(data_cov$BMI <= 30, 2, 3)))
+# re-class 0,1,2,3 to underweight, lean, overweight, obese with labels using factor()
+data_cov$CBMI <- factor(data_cov$CBMI,
+      levels = c(0,1,2,3),
+      labels = c("underwight", "lean", "overweight", "obese"))
+# summary of CBMI, to see the amount of each factor
+table(data_cov$CBMI)
 ```
 
 ## Merge datasets
 ```{r}
-
+# use three ways to merge datasets to see the differences
+# cbind()
+data_cbind <- cbind(tidy_pd, data_cov)
+# merge(x,y, all=TRUE), full outer join
+data_merge <- merge(tidy_pd, data_cov, all = TRUE)
+# merge(x,y,by=ID), inner join by default
+data_all <- merge(tidy_pd, data_cov, by = "ID")
 ```
 
 ## Re-arrange the data
 ### Reorder variables
 ```{r}
-
+# check
+names(data_all)
+# reorder ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB
+data_all <- data_all %>% 
+  select(ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB)
 ```
 
 ### Reorder rows
 ```{r}
-
+# order() the dataframe[ , ], first increasing ID and then TIME
+data_all <- data_all[order(data_all$ID, data_all$TIME), ]
 ```
 
 # Numerical and graphical data summary
