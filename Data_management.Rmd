@@ -1,0 +1,126 @@
+---
+title: 'Data management, plotting and statistical testing'
+subtitle: 'Practice Project in R course'
+author: 'Yufan Yao'
+date: '`r Sys.Date()`'
+output: 
+  html_document: 
+    code_folding: show
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+# Introduction
+This document is 
+
+# Setup environment and data import
+## Load libraries
+```{r}
+
+```
+
+## Set working directory
+```{r}
+
+```
+
+## Import the datasets
+```{r}
+
+```
+
+## Visually inspect imported data.frames
+```{r}
+
+```
+
+# Data Management
+## Change variables
+### Set variables names
+```{r}
+
+```
+
+### Transform dataset from wide to long format
+```{r}
+
+```
+
+### Format Numeric variables
+```{r}
+
+```
+
+### Formate categorical variables
+```{r}
+
+```
+
+### Create new variables
+```{r}
+
+```
+
+## Merge datasets
+```{r}
+
+```
+
+## Re-arrange the data
+### Reorder variables
+```{r}
+
+```
+
+### Reorder rows
+```{r}
+
+```
+
+# Numerical and graphical data summary
+## Numerical summary of time-invariant variables
+```{r}
+
+```
+
+## Graphical summary of time-invariant variables
+### Histograms
+```{r}
+
+```
+
+### Correlation matrix
+```{r}
+
+```
+
+### Box plots
+```{r}
+
+```
+
+## Numerical summary of time-variant variables
+```{r}
+
+```
+
+## Graphical summary of time-variant variables
+### Scatterplots
+#### Spaghetti plots
+```{r}
+
+```
+
+#### Panel plots
+```{r}
+
+```
+
+# Statistical testing
+```{r}
+
+```
+
