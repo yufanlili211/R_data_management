@@ -125,7 +125,7 @@ data_all <- merge(tidy_pd, data_cov, by = "ID")
 ```{r}
 # check
 names(data_all)
-# reorder ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB
+# reorder ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB, using dplyr
 data_all <- data_all %>% 
   select(ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB)
 ```
