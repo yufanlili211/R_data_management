@@ -57,7 +57,7 @@ tidy_pd <- gather(
   data_pd,
   key = "TIME",
   value = "CD4",
-  -ID)
+  -ID) # exclude ID column
 ```
 
 ### Format Numeric variables
@@ -122,7 +122,7 @@ data_all <- merge(tidy_pd, data_cov, by = "ID")
 
 ## Re-arrange the data
 ### Reorder variables
-```{r}
+```{r reoider variables}
 # check
 names(data_all)
 # reorder ID, TIME, CD4, BCD4, BVL, WT, HT, BMI, CBMI, SEX, TB, using dplyr
@@ -131,7 +131,7 @@ data_all <- data_all %>%
 ```
 
 ### Reorder rows
-```{r}
+```{r reorder rows}
 # order() the dataframe[ , ], first increasing ID and then TIME
 data_all <- data_all[order(data_all$ID, data_all$TIME), ]
 ```
@@ -139,14 +139,45 @@ data_all <- data_all[order(data_all$ID, data_all$TIME), ]
 # Numerical and graphical data summary
 ## Numerical summary of time-invariant variables
 ```{r}
+# use duplicated() to extract the first record of each individual
+data_first <- data_all[!duplicated(data_all$ID), ]
+
+# summarize all continuous time-invariant variables BCD4, BVL, WT, HT, BMI in data_first
+# summary() in basic R or dplyr
+# dplyr
+data_first %>% 
+  select(BCD4, BVL, WT, HT, BMI) %>% 
+  summary()
+
+# basic R
+# summary(data_first[ ,c("BCD4","BVL","WT","HT","BMI") ])
+
+# summarize all categorical time-invariant variables CBMI, SEX, TB in data_first (dplyr)
+data_first %>% 
+  select(CBMI, SEX, TB) %>% 
+  summary()
 
 ```
 
 ## Graphical summary of time-invariant variables
 ### Histograms
-```{r}
+continuous time-invariant variables (BCD4, BVL, WT, HT, BMI) using for() loop
+1. basic R
+```{r basic R hist}
+for (var in c("BCD4", "BVL", "WT", "HT", "BMI")){
+  hist(data_first[[var]], # data
+       main = paste("Histogram of", var),
+       xlab = var,
+       col = "lightblue",
+       border = "white")
+}
 
 ```
+2. ggplot2
+```{r ggplot2 hist}
+
+```
+
 
 ### Correlation matrix
 ```{r}
