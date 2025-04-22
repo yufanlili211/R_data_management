@@ -142,6 +142,9 @@ data_all <- data_all[order(data_all$ID, data_all$TIME), ]
 # use duplicated() to extract the first record of each individual
 data_first <- data_all[!duplicated(data_all$ID), ]
 
+# export data_first for further practice
+write.csv(data_first, "data_first_time_invariant.csv", row.names = FALSE)
+
 # summarize all continuous time-invariant variables BCD4, BVL, WT, HT, BMI in data_first
 # summary() in basic R or dplyr
 # dplyr
