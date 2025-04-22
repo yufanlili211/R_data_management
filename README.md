@@ -20,3 +20,9 @@ You will however be working on the run-in data, hence no drug is given and only 
 ### 1. Data management
 
 
+
+## 🟢 Disclaimer
+
+This repository contains materials based on coursework in my master's program  
+(*Pharmaceutical Modelling Master Program, Uppsala University*), used solely for educational and non-commercial purposes.
+
