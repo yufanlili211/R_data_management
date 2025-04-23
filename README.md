@@ -16,12 +16,8 @@ The phase IIb study focuses on the pharmacokinetics and pharmacodynamics of BPI8
 
 You will however be working on the run-in data, hence no drug is given and only the behaviour of the natural progression of the disease (in terms of the biomarkers) is investigated. Apart from the CD4 count, you are also provided with demographic information for the enrolled individuals.
 
-## 4. Notes (functions)
-### 1. Data management
 
-
-
-## 🟢 Disclaimer
+#### 🟢 Disclaimer
 
 This repository contains materials based on coursework in my master's program  
 (*Pharmaceutical Modelling Master Program, Uppsala University*), used solely for educational and non-commercial purposes.
